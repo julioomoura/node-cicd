@@ -11,8 +11,8 @@ const port = process.env.PORT || 3000;
 const gitHubClient = new GitHubClient(request);
 const userAndFollowersController = new UserAndFollowersController(gitHubClient);
 
-app.get("/", async (req, res) => {
-  await userAndFollowersController.getFollowersByUserName(req, res);
+app.get("/", async (req, res, next) => {
+  await userAndFollowersController.getFollowersByUserName(req, res, next);
 });
 
 app.listen(3000, () => {

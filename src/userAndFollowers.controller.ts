@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { GitHubClient } from "./github.client";
 import UserAndFollowers from "./userAndFollowers";
 
@@ -8,11 +8,18 @@ export class UserAndFollowersController {
     this.gitHubClient = gitHubClient;
   }
 
-  async getFollowersByUserName(request: Request, response: Response) {
+  async getFollowersByUserName(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
     const user = request.query["user"] || "julioomoura";
 
-    const followers = await this.gitHubClient.getUserFollowers(`${user}`);
+    let followers;
 
+    await this.gitHubClient.getUserFollowers(`${user}`, next).then((res) => {
+      followers = res;
+    });
     const userAndFollowers: UserAndFollowers = {
       user: `${user}`,
       followersCount: followers,
