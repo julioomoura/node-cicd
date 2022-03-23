@@ -10,7 +10,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -21,3 +21,4 @@ jobs:
         cache: 'yarn'
     - run: yarn
     - run: yarn build
+    - run: yarn test:unit
